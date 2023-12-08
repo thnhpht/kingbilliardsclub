@@ -29,55 +29,144 @@
     <title>King Billiards Club</title>
   </head>
   <body onload="update_time()">
-    <nav class="navbar navbar-expand-lg">
-      <div class="container-fluid">
-        <a class="navbar-brand color-gold font-28" href="{% url 'home' %}"
-          ><img
-            src="{% static 'img/logo.png' %}"
-            alt="Logo"
-            width="112"
-            height="104"
-            class="d-inline-block align-text-center"
-        /></a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav">
-            <li class="nav-item">
-              <a
-                class="nav-link active color-gold font-24"
-                aria-current="page"
-                href="{% url 'livescores' %}"
-                ><strong>Live Scores</strong>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link color-gold font-24" href="{% url 'bracket' %}"
-                ><strong>Bracket</strong></a
-              >
-            </li>
-          </ul>
-          <ul>
-            <li class="nav-item color-gold font-24">
-              <a class="nav-link" href="{% url 'login' %}"
-                ><strong>Đăng nhập</strong></a
-              >
-            </li>
-          </ul>
+    <!-- Show Message -->
+    {% if messages %} 
+      {% for message in messages %}
+      <div
+        class="messages alert alert-{{ message.tags }} d-flex align-items-center alert-dismissible fade show"
+        role="alert"
+      >
+        <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img">
+          {% if message.tags == 'success' %}
+          <use xlink:href="#check-circle-fill" />
+          {% else %}
+          <use xlink:href="#exclamation-triangle-fill" />
+          {% endif %}
+        </svg>
+
+        <div {% if message.tags %} class="{{ message.tags }}" {% endif %}>
+          {{ message }}
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="alert"
+            aria-label="Close"
+          ></button>
         </div>
       </div>
-    </nav>
+      {% endfor %} 
+    {% endif %} 
+
+    {% url 'live_scores' as live_scores %}
+    {% url 'bracket' as bracket %}
+
+    {% if user.is_authenticated %}
+      <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid position-fixed sticky-md-top">
+          <a class="navbar-brand color-gold font-28" href="{% url 'home' %}"
+            ><img
+              src="{% static 'img/logo.png' %}"
+              alt="Logo"
+              width="112"
+              height="104"
+              class="d-inline-block align-text-center"
+          /></a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a
+                  class="nav-link active color-gold font-24 {% if request.path == live_scores %} active {% endif %}" 
+                  aria-current="page"
+                  href="{% url 'live_scores' %}"
+                  ><strong>Live Scores</strong>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link color-gold font-24 {% if request.path == bracket %} active {% endif %}" href="{% url 'bracket' %}"
+                  ><strong>Bracket</strong></a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link color-gold font-24 {% if request.path == create_player %} active {% endif %}" href="{% url 'create_player' %}"
+                  ><strong>Thêm người chơi</strong></a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link color-gold font-24 {% if request.path == create_duel %} active {% endif %}" href="{% url 'create_duel' %}"
+                  ><strong>Thêm cặp đấu</strong></a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link color-gold font-24" href="{% url 'sign_out' %}"
+                  ><strong>Đăng xuất</strong></a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    {% else %}
+      <nav class="navbar navbar-expand-lg">
+        <div class="container-fluid position-fixed position-fixed sticky-md-top">
+          <a class="navbar-brand color-gold font-28" href="{% url 'home' %}"
+            ><img
+              src="{% static 'img/logo.png' %}"
+              alt="Logo"
+              width="112"
+              height="104"
+              class="d-inline-block align-text-center"
+          /></a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+            aria-controls="navbarNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a
+                  class="nav-link color-gold font-24 {% if request.path == live_scores %} active {% endif %}"
+                  href="{% url 'live_scores' %}"
+                  ><strong>Live Scores</strong>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link color-gold font-24 {% if request.path == manage_staff %} active {% endif %}" href="{% url 'bracket' %}"
+                  ><strong>Bracket</strong></a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link color-gold font-24" href="{% url 'sign_in' %}"
+                  ><strong>Đăng nhập</strong></a
+                >
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    {% endif %}
+
     <div class="container">{% block content %} {% endblock content %}</div>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Link Font Awesome -->
+    <script src="https://kit.fontawesome.com/25d03fd816.js" crossorigin="anonymous"></script>
+    <!-- Link File Run Time Live -->
     <script src="{% static 'js/time.js' %}"></script>
   </body>
 </html>

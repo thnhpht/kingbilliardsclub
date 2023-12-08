@@ -26,6 +26,12 @@ class Race(models.Model):
     def __str__(self):
         return str(self.race)
     
+class Round(models.Model):
+    round = models.CharField(max_length=255)
+
+
+    def __str__(self):
+        return str(self.round)
     
 class Table(models.Model):
     table = models.CharField(max_length=2)
@@ -36,10 +42,11 @@ class Table(models.Model):
 
 
 class Duel(models.Model):
-    table = models.OneToOneField(Table, on_delete=models.CASCADE, null=True, blank=True)
-    player1 = models.OneToOneField(Player, on_delete=models.CASCADE, related_name='player1', null=True, blank=True)
+    round = models.ForeignKey(Round, on_delete=models.CASCADE, null=True, blank=True)
+    table = models.ForeignKey(Table, on_delete=models.CASCADE, null=True, blank=True)
+    player1 = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='player1', null=True, blank=True)
     score1 = models.IntegerField()
-    player2 = models.OneToOneField(Player, on_delete=models.CASCADE, related_name='player2', null=True, blank=True)
+    player2 = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='player2', null=True, blank=True)
     score2 = models.IntegerField()
     date = models.DateField(null=True)
     time = models.TimeField(null=True)
@@ -47,4 +54,4 @@ class Duel(models.Model):
 
 
     def __str__(self): 
-        return str(self.table) + ': ' + str(self.player1) + ' - ' + str(self.score1) + ' VS ' + str(self.player2) + ' - ' + str(self.score2) + ' - ' + str(self.date) + ' - ' + str(self.time)
+        return str(self.round) + ': ' + str(self.table) + ' - ' + str(self.player1) + ' - ' + str(self.score1) + ' VS ' + str(self.player2) + ' - ' + str(self.score2) + ' - ' + str(self.date) + ' - ' + str(self.time)

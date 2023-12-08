@@ -5,6 +5,7 @@ from .models import *
 
 admin.site.register(Player)
 admin.site.register(Race)
+admin.site.register(Round)
 admin.site.register(Table)
 admin.site.register(Duel)
 
