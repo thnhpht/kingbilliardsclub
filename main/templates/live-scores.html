@@ -1,0 +1,58 @@
+{% extends 'main.html' %} {% load static %} {% block content %}
+<h1>Live Scores</h1>
+
+<!-- <div class="d-flex bg-white w-100 justify-content-around align-items-center">
+  <h3>T1</h3>
+  <div class="d-flex justify-content-around align-items-center w-300">
+    <p>Phát</p>
+    <p>7</p>
+  </div>
+  <div class="d-flex justify-content-around align-items-center w-300">
+    <p>Huy</p>
+    <p>6</p>
+  </div>
+</div> -->
+<div class="round">
+  <div class="round-name">LAST 32 - RACE TO 7</div>
+  <table class="table table-responsive table-fixed text-nowrap">
+    <tbody>
+      {% for duel in duels %}
+      <tr>
+        <th scope="row">{{ duel.table }}</th>
+        <td>{{ duel.player1 }}</td>
+        <td>{{ duel.score1 }}</td>
+        <td>VS</td>
+        <td>{{ duel.player2 }}</td>
+        <td>{{ duel.score2 }}</td>
+        <td>{{ duel.date|date:'d-m-Y' }}</td>
+        <td>{{ duel.time|time:'H:i' }}</td>
+        <td>{{ duel.stop_time|time:'H:i' }}</td>
+
+        {% if duel.stop_time is null %}
+          {% if action == 'start' and duel.pk|stringformat:"s" == pk %}
+            <td>LIVE</td>
+            <td id="server-time"></td>
+            <form action="{% url 'livescores' %}" method="post">
+              {% csrf_token %}
+              <input type="hidden" name="action" value="stop" />
+              <input type="hidden" name="pk" value="{{ duel.pk }}" />
+              <td><input type="submit" value="Stop" class="btn btn-danger" /></td>
+            </form>
+          {% else %}
+            <form action="{% url 'livescores' %}" method="post">
+              {% csrf_token %}
+              <input type="hidden" name="action" value="start" />
+              <input type="hidden" name="pk" value="{{ duel.pk }}" />
+              <td>
+                <input type="submit" value="Start" class="btn btn-primary" />
+              </td>
+            </form>
+          {% endif %}
+        {% endif %}
+        
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock content %}

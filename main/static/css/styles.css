@@ -1,0 +1,73 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Kanit", sans-serif;
+  user-select: none;
+}
+
+body {
+  background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0.4) 0%,
+      rgba(0, 0, 0, 0.4) 100%
+    ),
+    url("../img/KING BILLIARDS CHAMPIONSHIP.png") no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+.container {
+}
+
+nav {
+  opacity: 0.8;
+}
+
+.color-gold {
+  color: #ffd700 !important;
+}
+
+.font-28 {
+  font-size: 28px !important;
+}
+
+.font-24 {
+  font-size: 20px !important;
+}
+
+.nav-item{
+  margin-right: 16px;
+}
+
+.nav-item.login {
+  right: 0;
+}
+
+h1 {
+  text-align: center;
+  font-style: italic;
+  color: #fff !important;
+}
+
+.round {
+  margin: 8px 32px 36px;
+}
+
+.round-name {
+  padding-left: 12px;
+  color: #fff;
+  background: red;
+  font-weight: bold;
+  font-size: 28px;
+  line-height: 40px;
+  height: 40px;
+}
+
+table {
+  font-size: 24px;
+  width: 100%;
+}
+

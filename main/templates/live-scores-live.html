@@ -1,0 +1,7 @@
+<td>LIVE</td>
+
+<form action="{% url 'livescores' %}" method="post">
+  {% csrf_token %}
+  <input type="hidden" name="action" value="stop" />
+  <td><input type="submit" value="Stop" class="btn btn-danger" /></td>
+</form>
