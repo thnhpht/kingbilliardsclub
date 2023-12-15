@@ -1,120 +1,78 @@
 {% extends 'main.html' %} {% load static %} {% block content %}
 <h1>Live Scores</h1>
 
-<!-- <div class="d-flex bg-white w-100 justify-content-around align-items-center">
-  <h3>T1</h3>
-  <div class="d-flex justify-content-around align-items-center w-300">
-    <p>Phát</p>
-    <p>7</p>
+{% for round in rounds %}
+  <div class="row round-name mb-2">
+    <div class="col m-2">
+      <div class="fst-italic fw-bold fs-3">{{ round.round }}</div>
+    </div>
   </div>
-  <div class="d-flex justify-content-around align-items-center w-300">
-    <p>Huy</p>
-    <p>6</p>
-  </div>
-</div> -->
-<div class="round">
-  {% for round in rounds %}
-  <div class="round-name">{{ round.round }}</div>
-  <table class="table table-striped table-responsive text-nowrap">
-    <tbody>
-      
-        {% for duel in duels %}
-          {% if round.id == duel.round.id %}
-            <tr>
-              <th scope="row">{{ duel.table }}</th>
-              <td class="col-3">{{ duel.player1 }}</td>
-              <td>{{ duel.score1 }}</td>
-
-              {% if user.is_authenticated %}
-                {% if action == 'start' and duel.pk|stringformat:"s" == pk %}
+  {% for duel in duels %} 
+    {% if round.id == duel.round.id %}
+      <div class="row mb-2">
+        <div class="col">
+          <div class="d-flex flex-column flex-lg-row align-items-lg-center">
+            <div class="d-flex flex-lg-column order-lg-2 action h-62 fb-220 justify-content-between ai-c">
+              <div class="d-flex align-items-center justify-content-start">
+                {% if duel.stop_time is null %} 
+                  <div class="">{{ duel.date|date:'d-m-Y' }}, {{ duel.time|time:'H:i' }}</div>
+                {% else %}
+                  <div class="">{{ duel.date|date:'d-m-Y' }}, {{ duel.time|time:'H:i' }} - {{ duel.stop_time|time:'H:i' }}</div>
+                {% endif %} 
+              </div>
+              {% if duel.live %}
+                <form action="{% url 'live_scores' %}" method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="action" value="stop" />
+                  <input type="hidden" name="pk" value="{{ duel.pk }}" />
+                  <div class="d-flex align-items-lg-center justify-content-lg-between">
+                    <div class="p-6">LIVE <i class="fa-solid fa-circle fa-2xs fa-fade" style="color: #dc3545;"></i></div>
+                    {% if user.is_authenticated %} 
+                      <div><input type="submit" value="Stop" class="btn btn-danger ml" /></div>
+                    {% endif %}
+                  </div>
+                </form>
+              {% else %}
+                {% if user.is_authenticated %} 
                   <form action="{% url 'live_scores' %}" method="post">
                     {% csrf_token %}
-                    <input type="hidden" name="action" value="increase_score_player1" />
+                    <input type="hidden" name="action" value="start" />
                     <input type="hidden" name="pk" value="{{ duel.pk }}" />
-                    <input type="hidden" name="score_player1" value="{{ duel.score1 }}" />
-                    <td>
-                      <button type="submit" class="btn">
-                        <i class="fa-solid fa-caret-up"></i>
-                      </button>
-                    </td>
-                  </form>
-                  <form action="{% url 'live_scores' %}" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="action" value="decrease_score_player1" />
-                    <input type="hidden" name="pk" value="{{ duel.pk }}" />
-                    <input type="hidden" name="score_player1" value="{{ duel.score1 }}" />
-                    <td>
-                      <button type="submit" class="btn">
-                        <i class="fa-solid fa-caret-down"></i>
-                      </button>
-                    </td>
+                    <div class="d-flex">
+                      <div><input type="submit" value="Start" class="btn btn-primary"/></div>
+                    </div>
                   </form>
                 {% endif %}
-              {% endif %}
-              
-              <td>VS</td>
-              <td class="col-3">{{ duel.player2 }}</td>
-              <td>{{ duel.score2 }}</td>
-
-              {% if user.is_authenticated %}
-                {% if action == 'start' and duel.pk|stringformat:"s" == pk %}
-                  <form action="{% url 'live_scores' %}" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="action" value="increase_score_player2" />
-                    <input type="hidden" name="pk" value="{{ duel.pk }}" />
-                    <input type="hidden" name="score_player2" value="{{ duel.score2 }}" />
-                    <td>
-                      <button type="submit" class="btn">
-                        <i class="fa-solid fa-caret-up"></i>
-                      </button>
-                    </td>
-                  </form>
-                  <form action="{% url 'live_scores' %}" method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="action" value="decrease_score_player2" />
-                    <input type="hidden" name="pk" value="{{ duel.pk }}" />
-                    <input type="hidden" name="score_player2" value="{{ duel.score2 }}" />
-                    <td>
-                      <button type="submit" class="btn">
-                        <i class="fa-solid fa-caret-down"></i>
-                      </button>
-                    </td>
-                  </form>
-                {% endif %}
-              {% endif %}
-
-              <td class="col-1">{{ duel.date|date:'d-m-Y' }}</td>
-              <td>{{ duel.time|time:'H:i' }}</td>
-              <td>{{ duel.stop_time|time:'H:i' }}</td>
-              
-              {% if user.is_authenticated %}
-                {% if duel.stop_time is null %}
-                  {% if action == 'start' and duel.pk|stringformat:"s" == pk %}
-                    <td id="server-time"></td>
-                    <form action="{% url 'live_scores' %}" method="post">
-                      {% csrf_token %}
-                      <input type="hidden" name="action" value="stop" />
-                      <input type="hidden" name="pk" value="{{ duel.pk }}" />
-                      <td><input type="submit" value="Stop" class="btn btn-danger" /></td>
-                    </form>
-                  {% else %}
-                    <form action="{% url 'live_scores' %}" method="post">
-                      {% csrf_token %}
-                      <input type="hidden" name="action" value="start" />
-                      <input type="hidden" name="pk" value="{{ duel.pk }}" />
-                      <td>
-                        <input type="submit" value="Start" class="btn btn-primary" />
-                      </td>
-                    </form>
-                  {% endif %}
-                {% endif %}
-              {% endif %}
-            </tr>
-          {% endif %}
-        {% endfor %}
-    </tbody>
-  </table>
+              {% endif %} 
+            </div>
+            <div class="d-flex flex-row order-lg-1 flex-fill">
+              <div
+                class="d-flex flex-column justify-content-center align-items-center table-color"
+              >
+                <div class="fs-3 fw-bold fst-italic">{{ duel.table }}</div>
+              </div>
+              <div
+                class="d-flex flex-column flex-lg-row justify-content-center flex-fill player-color fs-5 fw-bold h-62"
+              >
+                <div
+                  class="d-flex flex-row align-items-center justify-content-between"
+                >
+                  <div class="player-name m-3">{{ duel.player1 }}</div>
+                  <div class="player-score m-3">{{ duel.score1 }}</div>
+                </div>
+                <div class="d-none d-lg-flex align-items-center">VS</div>
+                <div
+                  class="d-flex flex-row align-items-center justify-content-between"
+                >
+                  <div class="player-name m-3 order-lg-2">{{ duel.player2 }}</div>
+                  <div class="player-score m-3 order-lg-1">{{ duel.score2 }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %} 
   {% endfor %}
-</div>
-
+{% endfor %} 
 {% endblock content %}

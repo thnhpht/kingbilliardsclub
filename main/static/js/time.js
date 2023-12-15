@@ -4,7 +4,7 @@ function show_time() {
   let m = addZero(d.getMinutes());
   let s = addZero(d.getSeconds());
   let time = h + ":" + m + ":" + s;
-  document.getElementById("server-time").innerHTML = time;
+  document.getElementById("live").innerHTML = time;
 }
 
 function addZero(i) {
@@ -17,3 +17,4 @@ function addZero(i) {
 function update_time() {
   setInterval(show_time, 1000);
 }
+

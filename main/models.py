@@ -50,8 +50,14 @@ class Duel(models.Model):
     score2 = models.IntegerField()
     date = models.DateField(null=True)
     time = models.TimeField(null=True)
+    live = models.BooleanField(default=False)
     stop_time = models.TimeField(null=True, blank=True)
+
+
+    class Meta:
+        ordering = ['table']
 
 
     def __str__(self): 
         return str(self.round) + ': ' + str(self.table) + ' - ' + str(self.player1) + ' - ' + str(self.score1) + ' VS ' + str(self.player2) + ' - ' + str(self.score2) + ' - ' + str(self.date) + ' - ' + str(self.time)
+    

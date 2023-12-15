@@ -30,10 +30,6 @@ body {
   opacity: 0.4;
 }
 
-.active {
-  color: #fff !important;
-}
-
 @keyframes hide-message {
   to {
     visibility: hidden;
@@ -56,7 +52,7 @@ nav {
   font-size: 28px !important;
 }
 
-.font-24 {
+.font-20 {
   font-size: 20px !important;
 }
 
@@ -74,21 +70,48 @@ h1 {
   color: #fff !important;
 }
 
-.round {
-  margin: 0 -200px ;
+@media screen and (min-width: 992px) {
+  .fb-220 {
+    flex-basis: 220px !important;
+  }
+
+  .h-62 {
+    height: 62px !important;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .ai-c {
+    align-items: center !important;
+  }
+  .ml {
+    margin-left: 12px !important;
+  }
+}
+
+.p-6 {
+  padding: 6px 0;
 }
 
 .round-name {
-  padding-left: 12px;
+  margin: 0 !important;
+  background-color: #dc3545;
   color: #fff;
-  background: red;
-  font-weight: bold;
-  font-size: 28px;
-  line-height: 40px;
-  height: 40px;
 }
 
-table {
-  font-size: 24px;
-  table-layout: fixed !important;
+.table-color {
+  background: #2f394e;
+  color: #787e8c;
+  width: 10%;
+}
+
+.player-color {
+  background: #17233a;
+  color: #787e8c;
+}
+
+.action {
+  padding: 0 12px;
+  background: #2f394e;
+  color: #fff;
 }

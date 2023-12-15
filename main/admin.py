@@ -10,3 +10,4 @@ admin.site.register(Table)
 admin.site.register(Duel)
 
 
+

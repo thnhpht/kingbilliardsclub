@@ -45,30 +45,20 @@ def signOut(request):
 
 
 def liveScores(request):
-    pk = ""
-    action = "stop"
-
     if request.method == 'POST':
         pk = request.POST["pk"]
-        action = "start"
-        if request.POST["action"] == "increase_score_player1":
-            Duel.objects.filter(pk=pk).update(score1=int(request.POST["score_player1"]) + 1)
-        elif request.POST["action"] == "increase_score_player2":
-            Duel.objects.filter(pk=pk).update(score2=int(request.POST["score_player2"]) + 1)
-        elif request.POST["action"] == "decrease_score_player1":
-            Duel.objects.filter(pk=pk).update(score1=int(request.POST["score_player1"]) - 1)
-        elif request.POST["action"] == "decrease_score_player2":
-            Duel.objects.filter(pk=pk).update(score2=int(request.POST["score_player2"]) - 1)
+        if request.POST["action"] == "start":
+            Duel.objects.filter(pk=pk).update(live=True)
         elif request.POST["action"] == "stop":
-            action = "stop"
+            Duel.objects.filter(pk=pk).update(live=False)
             Duel.objects.filter(pk=pk).update(stop_time=datetime.now().strftime('%H:%M:%S'))
 
     duels = Duel.objects.all()
     rounds = Round.objects.all().order_by('pk').values()
+    for duel in duels:
+        print(duel)
     context = {'duels': duels,
                'rounds': rounds,
-                'pk': pk,
-                'action': action
             }
             
     return render(request, 'live-scores.html', context)
