@@ -6,6 +6,7 @@ from django.db import models
 class Player(models.Model):
     name = models.CharField(max_length=255, null=True)
     rank = models.CharField(max_length=2, null=True)
+    image = models.ImageField(upload_to='images/players', null=True, blank=True)
 
 
     def __str__(self):
@@ -19,12 +20,6 @@ class Race(models.Model):
     def __str__(self):
         return str(self.race)
 
-class Race(models.Model):
-    race = models.IntegerField()
-
-
-    def __str__(self):
-        return str(self.race)
     
 class Round(models.Model):
     round = models.CharField(max_length=255)

@@ -21,7 +21,7 @@
                 {% endif %} 
               </div>
               {% if duel.live %}
-                <form action="{% url 'live_scores' %}" method="post">
+                <form method="post">
                   {% csrf_token %}
                   <input type="hidden" name="action" value="stop" />
                   <input type="hidden" name="pk" value="{{ duel.pk }}" />
@@ -34,7 +34,7 @@
                 </form>
               {% else %}
                 {% if user.is_authenticated %} 
-                  <form action="{% url 'live_scores' %}" method="post">
+                  <form method="post">
                     {% csrf_token %}
                     <input type="hidden" name="action" value="start" />
                     <input type="hidden" name="pk" value="{{ duel.pk }}" />

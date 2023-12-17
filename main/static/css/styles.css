@@ -115,3 +115,84 @@ h1 {
   background: #2f394e;
   color: #fff;
 }
+
+.form-searching input{
+  width: 200px;
+  height: 40px;
+  padding-left: 8px;
+  font-size: 16px;
+  border-radius: 8px;
+}
+
+.form-searching button{
+  background: #fff;
+}
+
+.form-searching button:hover{
+  background: #000;
+}
+
+.form-searching button:hover i{
+  color: #fff !important;
+}
+
+.form-show-create button{
+  background: #fff;
+}
+
+.form-show-create button:hover{
+  background: #000;
+}
+
+.form-show-create button:hover i, .form-show-create button:hover span{
+  color: #fff;
+}
+
+.table-player .img-player {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.table-player .btn-edit:hover i {
+  color: blue;
+}
+
+.table-player .btn-delete:hover i {
+  color: red;
+}
+
+.form-create-edit-player {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  background: #ffffff !important;
+  width: 400px;
+  padding: 40px 62px;
+  border-radius: 20px;
+  box-shadow: 0 0 1px rgba(39, 103, 73, 0.3), 0 16px 24px rgba(39, 103, 73, 0.201) !important;
+}
+
+.form-create-edit-player .buttons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.form-create-edit-player .submit, .form-create-edit-player .cancel {
+  width: 120px;
+  height: 40px;
+  font-size: 16px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.2), 0 2px 2px rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+}
+
+.form-create-edit-player .cancel{
+  text-decoration: none;
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.form-create-edit-player .cancel:hover {
+  background-color: #c7082b;
+  cursor: pointer;
+}

@@ -68,29 +68,42 @@ def bracket(request):
     return render(request, 'bracket.html')
 
 
-def createPlayer(request):
-    context = {}
- 
-    form = PlayerForm(request.POST or None, request.FILES or None)
-     
-    if form.is_valid():
-        form.save()
-        return redirect('/create-player/')
- 
-    context['form']= form
-    return render(request, 'create-player.html', context)
+def player(request):
+    pk = ""
+    action = ""
+    form = PlayerForm()
+    players = Player.objects.all()
 
-
-def createDuel(request):
-    context = {}
- 
-    form = DuelForm(request.POST or None, request.FILES or None)
-     
-    if form.is_valid():
-        form.save()
-        return redirect('/create-duel/')
- 
-    context['form']= form
-    return render(request, 'create-duel.html', context)
-
+    if request.method == "POST":
+        data = request.POST
+        action = data.get("action")
+        if action == "search":
+            search = request.POST.get('search-words')
+            players = Player.objects.filter(name__contains=search)
+        elif action == "create":   
+            form_create = PlayerForm(request.POST, request.FILES)
+            if form_create.is_valid():
+                form_create.save()  
+                return redirect('/player/')
+        elif action == "show-edit-form":
+            pk = request.POST.get("pk")
+            player = Player.objects.get(id=pk)
+            form = PlayerForm(instance=player)
+        elif action == "edit":
+            pk = request.POST.get("pk")
+            player = Player.objects.get(id=pk)
+            form_edit = PlayerForm(request.POST, request.FILES, instance=player)
+            if form_edit.is_valid():
+                form_edit.save()  
+                return redirect('/player/')
+        elif action == "delete":
+            player = Player.objects.get(id=request.POST.get("pk"))
+            player.delete()
+            return redirect('/player/')
+    
+    context = {'players': players,
+               'pk': pk,
+               'action': action,
+               'form': form}
+    return render(request, 'player.html', context)
 

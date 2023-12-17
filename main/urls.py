@@ -9,6 +9,5 @@ urlpatterns = [
     path('bracket/', views.bracket, name="bracket"),
     path('sign-in/', views.signIn, name="sign_in"),
     path('sign-out/', views.signOut, name='sign_out'),
-    path('create-player/', views.createPlayer, name='create_player'),
-    path('create-duel/', views.createDuel, name='create_duel'),
+    path('player/', views.player, name='player'),
 ]
