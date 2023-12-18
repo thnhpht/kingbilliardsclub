@@ -15,9 +15,9 @@
             <div class="d-flex flex-lg-column order-lg-2 action h-62 fb-220 justify-content-between ai-c">
               <div class="d-flex align-items-center justify-content-start">
                 {% if duel.stop_time is null %} 
-                  <div class="">{{ duel.date|date:'d-m-Y' }}, {{ duel.time|time:'H:i' }}</div>
+                  <div class="">{{ duel.date|date:'d/m/Y' }}, {{ duel.time|time:'H:i' }}</div>
                 {% else %}
-                  <div class="">{{ duel.date|date:'d-m-Y' }}, {{ duel.time|time:'H:i' }} - {{ duel.stop_time|time:'H:i' }}</div>
+                  <div class="">{{ duel.date|date:'d/m/Y' }}, {{ duel.time|time:'H:i' }} - {{ duel.stop_time|time:'H:i' }}</div>
                 {% endif %} 
               </div>
               {% if duel.live %}

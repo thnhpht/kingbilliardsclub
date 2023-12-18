@@ -1,0 +1,127 @@
+{% extends 'main.html' %} {% load static %} {% block content %}
+<h1>Cặp đấu</h1>
+
+<div class="d-flex justify-content-end mt-2">
+    <form method="POST" class="form-show-create">
+        {% csrf_token %}
+        <div>
+            <button type="submit" class="btn" name="action" value="show-create-form">
+                <i class="fa-solid fa-plus"></i>
+                <span class="ms-1">Thêm cặp đấu</span>
+            </button>
+        </div>
+    </form>
+</div>
+
+<table class="table table-hover table-responsive table-warning table-player">
+    <thead class="table-dark">
+    <tr>
+        <th scope="col">Vòng đấu</th>
+        <th scope="col">Bàn</th>
+        <th scope="col">Người chơi 1</th>
+        <th scope="col">Điểm</th>
+        <th scope="col">Người chơi 2</th>
+        <th scope="col">Điểm</th>
+        <th scope="col">Ngày đấu</th>
+        <th scope="col">Giờ đấu</th>
+        <th scope="col">Hành động</th>
+    </tr>
+    </thead>
+
+    {% for duel in duels %}
+        <tr class="align-middle">
+            <td>{{ duel.round }}</td>
+            <td>{{ duel.table }}</td>
+            <td>{{ duel.player1 }}</td>
+            <td>
+                <div class="d-flex align-items-center">
+                    <div class="me-3">{{ duel.score1 }}</div>
+                    <div class="d-flex flex-column justify-content-center">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="pk" value="{{ duel.pk }}" />
+                            <input type="hidden" name="score1" value="{{ duel.score1 }}">
+                            <button type="submit" class="btn p-0 mb-up btn-score" name="action" value="up-score1">
+                                <i class="fa-solid fa-caret-up fa-2xl"></i>
+                            </button>
+                        </form>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="pk" value="{{ duel.pk }}" />
+                            <input type="hidden" name="score1" value="{{ duel.score1 }}">
+                            <button type="submit" class="btn p-0 mt-down btn-score" name="action" value="down-score1">
+                                <i class="fa-solid fa-caret-down fa-2xl"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </td>
+            <td>{{ duel.player2 }}</td>
+            <td>
+                <div class="d-flex align-items-center">
+                    <div class="me-3">{{ duel.score2 }}</div>
+                    <div class="d-flex flex-column justify-content-center">
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="pk" value="{{ duel.pk }}" />
+                            <input type="hidden" name="score2" value="{{ duel.score2 }}">
+                            <button type="submit" class="btn p-0 mb-up btn-score" name="action" value="up-score2">
+                                <i class="fa-solid fa-caret-up fa-2xl"></i>
+                            </button>
+                        </form>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="pk" value="{{ duel.pk }}" />
+                            <input type="hidden" name="score2" value="{{ duel.score2 }}">
+                            <button type="submit" class="btn p-0 mt-down btn-score" name="action" value="down-score2">
+                                <i class="fa-solid fa-caret-down fa-2xl"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </td>
+            <td>{{ duel.date|date:'d/m/Y' }}</td>
+            <td>{{ duel.time|time:'H:i' }}</td>
+       
+            <td>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="pk" value="{{ duel.pk }}" />
+                    <button type="submit" class="btn btn-edit" name="action" value="show-edit-form">
+                        <i class="fa-solid fa-user-pen"></i>
+                    </button>
+                    <button type="submit" class="btn btn-delete" name="action" value="delete">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+
+    {% if action == "show-create-form" %}
+        <div class="form-create-edit">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form }}
+                <div class="buttons">
+                    <a href="{% url 'duel' %}" class="cancel d-flex justify-content-center align-items-center">Hủy Bỏ</a>
+                    <button type="submit" class="btn btn-primary submit ms-1" name="action" value="create">Xác Nhận</button>
+                </div>
+            </form>
+        </div>
+    {% endif %}
+    {% if action == "show-edit-form" %}
+        <div class="form-create-edit">
+            <form method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="pk" value="{{ pk }}">
+                {{ form }}
+                <div class="buttons">
+                    <a href="{% url 'duel' %}" class="cancel d-flex justify-content-center align-items-center">Hủy Bỏ</a>
+                    <button type="submit" class="btn btn-primary submit ms-1" name="action" value="edit">Xác Nhận</button>
+                </div>
+            </form>
+        </div>
+    {% endif %}
+</table>
+{% endblock content %}

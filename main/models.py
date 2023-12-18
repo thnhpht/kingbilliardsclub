@@ -1,5 +1,5 @@
 from django.db import models
-
+from datetime import datetime
 # Create your models here.
 
 
@@ -37,13 +37,13 @@ class Table(models.Model):
 
 
 class Duel(models.Model):
-    round = models.ForeignKey(Round, on_delete=models.CASCADE, null=True, blank=True)
-    table = models.ForeignKey(Table, on_delete=models.CASCADE, null=True, blank=True)
-    player1 = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='player1', null=True, blank=True)
-    score1 = models.IntegerField()
-    player2 = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='player2', null=True, blank=True)
-    score2 = models.IntegerField()
-    date = models.DateField(null=True)
+    round = models.ForeignKey(Round, on_delete=models.CASCADE, null=True)
+    table = models.ForeignKey(Table, on_delete=models.CASCADE, null=True)
+    player1 = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='player1', null=True)
+    score1 = models.IntegerField(default=0, null=True, blank=True)
+    player2 = models.ForeignKey(Player, on_delete=models.CASCADE, related_name='player2', null=True)
+    score2 = models.IntegerField(default=0, null=True, blank=True)
+    date = models.DateField(default=datetime.now, null=True)
     time = models.TimeField(null=True)
     live = models.BooleanField(default=False)
     stop_time = models.TimeField(null=True, blank=True)

@@ -10,4 +10,5 @@ urlpatterns = [
     path('sign-in/', views.signIn, name="sign_in"),
     path('sign-out/', views.signOut, name='sign_out'),
     path('player/', views.player, name='player'),
+    path('duel/', views.duel, name='duel'),
 ]

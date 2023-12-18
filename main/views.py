@@ -107,3 +107,57 @@ def player(request):
                'form': form}
     return render(request, 'player.html', context)
 
+
+def duel(request):
+    pk = ""
+    action = ""
+    form = DuelForm()
+    duels = Duel.objects.all()
+
+    if request.method == "POST":
+        data = request.POST
+        action = data.get("action")
+    
+        if action == "create":   
+            form_create = DuelForm(request.POST, request.FILES)
+            if form_create.is_valid():
+                form_create.save()  
+                return redirect('/duel/')
+        elif action == "show-edit-form":
+            pk = request.POST.get("pk")
+            duel = Duel.objects.get(id=pk)
+            form = DuelForm(instance=duel)
+        elif action == "edit":
+            pk = request.POST.get("pk")
+            duel = Duel.objects.get(id=pk)
+            form_edit = DuelForm(request.POST, request.FILES, instance=duel)
+            if form_edit.is_valid():
+                form_edit.save()  
+                return redirect('/duel/')
+        elif action == "delete":
+            duel = Duel.objects.get(id=request.POST.get("pk"))
+            duel.delete()
+            return redirect('/duel/')
+        elif action == "up-score1":
+            pk = request.POST.get("pk")
+            Duel.objects.filter(pk=pk).update(score1=int(request.POST["score1"]) + 1)
+            return redirect('/duel/')
+        elif action == "down-score1":
+            pk = request.POST.get("pk")
+            Duel.objects.filter(pk=pk).update(score1=int(request.POST["score1"]) - 1)
+            return redirect('/duel/')
+        elif action == "up-score2":
+            pk = request.POST.get("pk")
+            Duel.objects.filter(pk=pk).update(score2=int(request.POST["score2"]) + 1)
+            return redirect('/duel/')
+        elif action == "down-score2":
+            pk = request.POST.get("pk")
+            Duel.objects.filter(pk=pk).update(score2=int(request.POST["score2"]) - 1)
+            return redirect('/duel/')
+        
+    context = {'duels': duels,
+               'pk': pk,
+               'action': action,
+               'form': form}
+    return render(request, 'duel.html', context)
+
