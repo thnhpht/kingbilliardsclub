@@ -12,7 +12,7 @@ body {
       rgba(0, 0, 0, 0.4) 0%,
       rgba(0, 0, 0, 0.4) 100%
     ),
-    url("../images/background/background.jpg") no-repeat center center fixed;
+  url("../img/background/background.jpg") no-repeat center center fixed;
   -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -34,6 +34,14 @@ body {
   to {
     visibility: hidden;
   }
+}
+
+.img-home {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -999;
+  opacity: 0.8;
 }
 
 ul {

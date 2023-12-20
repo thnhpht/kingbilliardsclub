@@ -1,5 +1,8 @@
-{% extends 'main.html' %} {% load static %} {% block content %}
-<h1>Cặp đấu</h1>
+{% extends 'base/base.html' %} 
+{% load static %} 
+{% block content %}
+
+<h1>Quản lý cặp đấu</h1>
 
 <div class="d-flex justify-content-end mt-2">
     <form method="POST" class="form-show-create">
@@ -104,7 +107,7 @@
                 {% csrf_token %}
                 {{ form }}
                 <div class="buttons">
-                    <a href="{% url 'duel' %}" class="cancel d-flex justify-content-center align-items-center">Hủy Bỏ</a>
+                    <a href="{% url 'manage_duel' %}" class="cancel d-flex justify-content-center align-items-center">Hủy Bỏ</a>
                     <button type="submit" class="btn btn-primary submit ms-1" name="action" value="create">Xác Nhận</button>
                 </div>
             </form>
@@ -117,11 +120,12 @@
                 <input type="hidden" name="pk" value="{{ pk }}">
                 {{ form }}
                 <div class="buttons">
-                    <a href="{% url 'duel' %}" class="cancel d-flex justify-content-center align-items-center">Hủy Bỏ</a>
+                    <a href="{% url 'manage_duel' %}" class="cancel d-flex justify-content-center align-items-center">Hủy Bỏ</a>
                     <button type="submit" class="btn btn-primary submit ms-1" name="action" value="edit">Xác Nhận</button>
                 </div>
             </form>
         </div>
     {% endif %}
 </table>
+
 {% endblock content %}

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Link CSS -->
     <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/contact.css' %}" />
     <!-- Link Bootstrap -->
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
@@ -26,7 +27,7 @@
       rel="stylesheet"
     />
     <!-- Link Favicon -->
-    <link rel="icon" type="image/x-icon" href="{% static 'img/favicon.ico' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'img/logo/logo.png' %}">
     <!-- Title -->
     <title>King Billiards Club</title>
   </head>
@@ -58,17 +59,20 @@
       </div>
       {% endfor %} 
     {% endif %}  -->
-
+      
     {% url 'live_scores' as live_scores %}
     {% url 'bracket' as bracket %}
+    {% url 'contact' as contact %}
     {% url 'player' as player %}
-    {% url 'duel' as duel %}
+    {% url 'manage_player' as manage_player %}
+    {% url 'manage_duel' as manage_duel %}
+    {% url 'manage_round' as manage_round %}
 
     <nav class="navbar navbar-dark navbar-expand-lg bg-transparent">
       <div class="container-fluid">
           <a class="navbar-brand" href="{% url 'home' %}">
               <img
-              src="{% static 'img/logo.png' %}"
+              src="{% static 'img/logo/logo.png' %}"
               alt="Logo"
               width="100"
               height="92"
@@ -84,21 +88,20 @@
           <div class="offcanvas-header text-white border-bottom">
             <a class="navbar-brand" href="{% url 'home' %}">
               <img
-              src="{% static 'img/logo.png' %}"
+              src="{% static 'img/logo/logo.png' %}"
               alt="Logo"
               width="100"
               height="92"
               class="m-image"
               />
             </a>
-            
             <button type="button" class="btn-close btn-close-white shadow-none" data-bs-dismiss="offcanvas" aria-label="Close"></button>
           </div>
           <!-- Sidebar Body -->
           <div class="offcanvas-body d-flex flex-column flex-lg-row">
             <!-- Main feature -->
             <ul class="navbar-nav justify-content-lg-center flex-grow-1 main-feature">
-              <!-- Show Navbar User -->
+              <!-- Show Navbar All -->
               <li class="nav-item">
                 <a class="nav-link text-white fs-5 {% if request.path == live_scores %} active {% endif %}" href="{% url 'live_scores' %}">
                   Live Scores
@@ -112,13 +115,30 @@
               <!-- Show Navbar Admin -->
               {% if user.is_authenticated %}
                 <li class="nav-item">
+                  <a class="nav-link text-white fs-5 {% if request.path == manage_player %} active {% endif %}" href="{% url 'manage_player' %}">
+                    Manage Player
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white fs-5 {% if request.path == manage_duel %} active {% endif %}" href="{% url 'manage_duel' %}">
+                    Manage Duel
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link text-white fs-5 {% if request.path == manage_round %} active {% endif %}" href="{% url 'manage_round' %}">
+                    Manage Round
+                  </a>
+                </li>
+              <!-- Show Navbar User -->
+              {% else %}
+                <li class="nav-item">
                   <a class="nav-link text-white fs-5 {% if request.path == player %} active {% endif %}" href="{% url 'player' %}">
                     Player
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link text-white fs-5 {% if request.path == duel %} active {% endif %}" href="{% url 'duel' %}">
-                    Duel
+                  <a class="nav-link text-white fs-5 {% if request.path == contact %} active {% endif %}" href="{% url 'contact' %}">
+                    Contact
                   </a>
                 </li>
               {% endif %}
@@ -143,9 +163,9 @@
         </div>
       </div>
     </nav>
-    
 
     <div class="container">{% block content %} {% endblock content %}</div>
+
     <!-- Link Font Awesome -->
     <script src="https://kit.fontawesome.com/25d03fd816.js" crossorigin="anonymous"></script>
     <!-- Link JQuery -->

@@ -1,0 +1,90 @@
+{% extends 'base/base.html' %} 
+{% load static %} 
+{% block content %}
+
+<h1>Quản lý người chơi</h1>
+
+<form method="POST" class="form-searching">
+    {% csrf_token %}
+    <div class="d-flex align-items-center">
+        <input type="text" name="search-words" placeholder="Nhập tên cần tìm...">
+        <button type="submit" class="btn" name="action" value="search">
+            <i class="fa-solid fa-magnifying-glass"></i>
+        </button>
+    </div>
+    
+</form>
+<div class="d-flex justify-content-end mt-2">
+    <form method="POST" class="form-show-create">
+        {% csrf_token %}
+        <div>
+            <button type="submit" class="btn" name="action" value="show-create-form">
+                <i class="fa-solid fa-plus"></i>
+                <span class="ms-1">Thêm người chơi</span>
+            </button>
+        </div>
+    </form>
+</div>
+
+<table class="table table-hover table-responsive table-warning table-player">
+    <thead class="table-dark">
+    <tr>
+        <th scope="col">Tên người chơi</th>
+        <th scope="col">Hạng</th>
+        <th scope="col">Hình ảnh</th>
+        <th scope="col">Hành động</th>
+    </tr>
+    </thead>
+
+    {% for player in players %}
+        <tr class="align-middle">
+            <td>{{ player.name }}</td>
+            <td>{{ player.rank }}</td>
+            {% if player.image %}
+                <td><img src="{{ player.image.url }}" alt="img" class="img-player"></td>
+            {% else %}
+                <td>Không có ảnh</td>
+            {% endif %}
+            <td>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="pk" value="{{ player.pk }}" />
+                    <button type="submit" class="btn btn-edit" name="action" value="show-edit-form">
+                        <i class="fa-solid fa-user-pen"></i>
+                    </button>
+                    <button type="submit" class="btn btn-delete" name="action" value="delete">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+
+    {% if action == "show-create-form" %}
+        <div class="form-create-edit">
+            <form enctype="multipart/form-data" method="POST">
+                {% csrf_token %}
+                {{ form }}
+                <div class="buttons">
+                    <a href="{% url 'manage_player' %}" class="cancel d-flex justify-content-center align-items-center">Hủy Bỏ</a>
+                    <button type="submit" class="btn btn-primary submit ms-1" name="action" value="create">Xác Nhận</button>
+                </div>
+            </form>
+        </div>
+    {% endif %}
+    {% if action == "show-edit-form" %}
+        <div class="form-create-edit">
+            <form enctype="multipart/form-data" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="pk" value="{{ pk }}">
+                {{ form }}
+                <div class="buttons">
+                    <a href="{% url 'manage_player' %}" class="cancel d-flex justify-content-center align-items-center">Hủy Bỏ</a>
+                    <button type="submit" class="btn btn-primary submit ms-1" name="action" value="edit">Xác Nhận</button>
+                </div>
+            </form>
+        </div>
+    {% endif %}
+</table>
+
+{% endblock content %}

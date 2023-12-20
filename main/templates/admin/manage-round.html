@@ -1,0 +1,72 @@
+{% extends 'base/base.html' %} 
+{% load static %} 
+{% block content %}
+
+<h1>Quản lý vòng đấu</h1>
+
+<div class="d-flex justify-content-end mt-2">
+    <form method="POST" class="form-show-create">
+        {% csrf_token %}
+        <div>
+            <button type="submit" class="btn" name="action" value="show-create-form">
+                <i class="fa-solid fa-plus"></i>
+                <span class="ms-1">Thêm vòng đấu</span>
+            </button>
+        </div>
+    </form>
+</div>
+
+<table class="table table-hover table-responsive table-warning table-player">
+    <thead class="table-dark">
+    <tr>
+        <th scope="col">Vòng đấu</th>
+        <th scope="col">Hành động</th>
+    </tr>
+    </thead>
+
+    {% for round in rounds %}
+        <tr class="align-middle">
+            <td>{{ round.round }}</td>
+            <td>
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="pk" value="{{ round.pk }}" />
+                    <button type="submit" class="btn btn-edit" name="action" value="show-edit-form">
+                        <i class="fa-solid fa-user-pen"></i>
+                    </button>
+                    <button type="submit" class="btn btn-delete" name="action" value="delete">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </form>
+            </td>
+        </tr>
+    {% endfor %}
+
+    {% if action == "show-create-form" %}
+        <div class="form-create-edit">
+            <form enctype="multipart/form-data" method="POST">
+                {% csrf_token %}
+                {{ form }}
+                <div class="buttons">
+                    <a href="{% url 'manage_round' %}" class="cancel d-flex justify-content-center align-items-center">Hủy Bỏ</a>
+                    <button type="submit" class="btn btn-primary submit ms-1" name="action" value="create">Xác Nhận</button>
+                </div>
+            </form>
+        </div>
+    {% endif %}
+    {% if action == "show-edit-form" %}
+        <div class="form-create-edit">
+            <form enctype="multipart/form-data" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name="pk" value="{{ pk }}">
+                {{ form }}
+                <div class="buttons">
+                    <a href="{% url 'manage_round' %}" class="cancel d-flex justify-content-center align-items-center">Hủy Bỏ</a>
+                    <button type="submit" class="btn btn-primary submit ms-1" name="action" value="edit">Xác Nhận</button>
+                </div>
+            </form>
+        </div>
+    {% endif %}
+</table>
+
+{% endblock content %}

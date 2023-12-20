@@ -48,3 +48,17 @@ class DuelForm(ModelForm):
             "time": _("Giờ đấu"),
         }
         
+
+class RoundForm(ModelForm):
+    class Meta:
+        model = Round
+        fields = "__all__"
+
+        widgets = {
+                'round': forms.TextInput(attrs={'class': 'form-control mb-2'}),
+            }
+
+        labels = {
+            "round": _("Vòng đấu"),
+        }
+        
